@@ -23,7 +23,8 @@ pip install -r requirements.txt
 Run the script with a YouTube URL as an argument:
 ```sh
 export YTCHAT_ASSISTANT_ID=asst_dUeK89O4......
-python main.py 'https://www.youtube.com/watch?v=d10238d821q'
+python main.py --url 'https://www.youtube.com/watch?v=d10238d821q'
+# if you run without a --url it woll prompt you to enter one
 ```
 The script will fetch the transcript of the video, send it to the OpenAI API, and print out the generated summary.  You can then ask further questions about the content of the transcript.
 

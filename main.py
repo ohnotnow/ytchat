@@ -53,10 +53,13 @@ def get_text_from_youtube(url: str, fallback_audio=False) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description='Process some URL.')
-    parser.add_argument('url', type=str, help='The YouTube URL to process')
+    parser.add_argument('--url', type=str, default='', help='The YouTube URL to process')
     args = parser.parse_args()
 
-    url = args.url
+    if not args.url:
+        url = input("Enter a YouTube URL: ")
+    else:
+        url = args.url
 
     summary = '';
 
