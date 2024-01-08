@@ -72,8 +72,23 @@ def main():
         purpose="assistants"
     )
     thread = client.beta.threads.create()
-    assistant_id = os.getenv('YTCHAT_ASSISTANT_ID')
-    run = create_run(client, thread, assistant_id, file.id, "Can you summarise the following video transcript for me?")
+    assistant_id = os.getenv('YTCHAT_ASSISTANT_ID', None)
+    if not assistant_id:
+        print("No YTCHAT_ASSISTANT_ID environment variable found.")
+        create = input("Would you like to create a new assistant? (y/n)")
+        if create.lower() == 'y':
+            assistant = client.beta.assistants.create(
+                name="YouTube Chat",
+                instructions="You are a helpful AI assistant who specialises in summarising text and then answering further questions the user may have in a concise, easy to understand format."
+                description="Summarise YouTube chat",
+                model="gpt-3.5-turbo-1106"
+            )
+            assistant_id = assistant.id
+            print(f"Created assistant with ID {assistant_id}.  Please set the YTCHAT_ASSISTANT_ID environment variable to this value so it is used in the future.")
+        else:
+            print("Cannot run without an assistant.  Exiting.")
+            exit(1)
+    run = create_run(client, thread, assistant_id, file.id, "Can you summarise the document containing a video transcript for me?")
     summary = get_assistant_response(client, thread, run)
     print(f"\n\n## Summary\n\n{summary}\n\n")
     while True:
