@@ -57,7 +57,7 @@ def main():
     args = parser.parse_args()
 
     if not args.url:
-        url = input("Enter a YouTube URL: ")
+        url = input(f"Enter a YouTube URL:\n")
     else:
         url = args.url
 
